@@ -21,31 +21,63 @@ function HashMap () {
 
   function set (key, value) {
     const index = hash(key);
+    try {
+      if (index < 0 || index >= buckets.length) {
+        throw new Error("Trying to access index out of bound");
+      }
 
-    // only use the provided range
-    if (index < 0 || index >= buckets.length) {
-      throw new Error("Trying to access index out of bound");
-    }
-
-    if (buckets[index] === null) {
-      buckets[index] = value;
-    } else {
-      throw new Error("Collision");
+      if (buckets[index] === null) {
+        buckets[index] = value;
+      } else {
+        throw new Error("Collision");
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
   function get (key) {
     const index = hash(key);
-
-    // only use the provided range
-    if (index < 0 || index >= buckets.length) {
-      throw new Error("Trying to access index out of bound");
+    try {
+      if (index < 0 || index >= buckets.length) {
+        throw new Error("Trying to access index out of bound");
+      }
+    } catch (error) {
+      console.error(error);
     }
-    
     return buckets[index];
   }
 
-  return { hash, getAll, set, get }
+  function has (key) {
+    const index = hash(key);
+    try {
+      if (index < 0 || index >= buckets.length) {
+        throw new Error("Trying to access index out of bound");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    return (buckets[index] !== null);
+  }
+
+  function remove (key) {
+    const index = hash(key);
+    try {
+      if (index < 0 || index >= buckets.length) {
+        throw new Error("Trying to access index out of bound");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    if (buckets[index] !== null) {
+      buckets[index] = null;
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  return { hash, getAll, set, get, has, remove }
 
 }
 
@@ -55,3 +87,6 @@ map.set("def", 200);
 map.set("xyz", 300);
 map.getAll();
 console.log("Value for key \"abc\": " + map.get("abc"));
+console.log("Is key \"def\" in the hash map? " + map.has("def"));
+console.log(map.remove("abc"));
+map.getAll();
