@@ -22,6 +22,12 @@ function HashMap () {
 
   function set (key, value) {
     const index = hash(key);
+    if (this.length() / capacity > loadFactor) {
+      console.log(`Increasing capacity from ${capacity} to ${capacity * 2}.`);
+      let temp = new Array(capacity).fill(null);
+      buckets = buckets.concat(temp);
+      capacity *= 2;
+    }
     try {
       if (index < 0 || index >= buckets.length) {
         throw new Error("Trying to access index out of bound");
@@ -136,3 +142,16 @@ console.log(map.keys());
 console.log(map.values());
 console.log(map.entries());
 console.log("Hash map size: " + map.length());
+map.set("j", 310);
+map.set("k", 320);
+map.set("l", 330);
+map.set("m", 340);
+map.set("n", 350);
+map.set("o", 360);
+map.set("p", 370);
+map.set("q", 380);
+map.set("s", 390);
+map.set("t", 400);
+console.log(map.entries());
+console.log("Hash map size: " + map.length());
+map.getAll();
